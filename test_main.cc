@@ -2,6 +2,7 @@
 #include <TF1.h>
 #include <TCanvas.h>
 #include <TApplication.h>
+#include "ion_charge_function.h"
 
 using namespace std;
 
@@ -14,6 +15,8 @@ int main(int argc, char *argv[]) {
 
     TCanvas c;
     f.Draw();
+
+    cout << ion_charge_function(0.,0.,0.,0.,0.,0.,0.,0.) << endl;
 
     theApp.Run();
 
