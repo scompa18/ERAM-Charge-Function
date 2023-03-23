@@ -13,4 +13,6 @@
 
 double ion_charge_function(double x, double y, double l_x, double l_y, double k, double t, double m, double T);
 
+// Only for debug
+double charge_density_function(double *xu, double *par);
 #endif
