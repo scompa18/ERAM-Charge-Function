@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     TCanvas c;
     f.Draw();
 
-    cout << ion_charge_function(0.,0.,0.,0.,0.,0.,0.,0.) << endl;
+    cout << ion_charge_function(1.,0.,0.,0.,0.,0.,0.,0.) << endl;
 
     theApp.Run();
 
