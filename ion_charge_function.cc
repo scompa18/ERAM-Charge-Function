@@ -2,12 +2,29 @@
 #include "gsl/gsl_specfunc.h"
 #include <cmath>
 #include <TF2.h>
+#include "gsl/gsl_errno.h"
 
 // Function range will be set in
 // x [-max_x_size, max_x_size]
 // y [-max_y_size, max_y_size]
 #define max_x_size 100.
 #define max_y_size 100.
+
+double exponential_integral_wrapper(double x) {
+    // Container for result
+    gsl_sf_result result;
+
+    // Prepare error handler to avoid issues when
+    // we are far away from main pad and the charge
+    // didn't yet reach the current pad
+    gsl_set_error_handler_off();
+    int err_code = gsl_sf_expint_Ei_e(x, &result);
+
+    if (err_code == GSL_EUNDRFLW)
+        return 0.;
+    else
+        return result.val;
+}
 
 // Charge density function, vector parameters to be compatible with TF2
 double charge_density_function(double *xu, double *par) {
@@ -31,13 +48,13 @@ double charge_density_function(double *xu, double *par) {
 
     // If you check in the thesis this part is common to
     // both formulas
-    double numerator = gsl_sf_expint_Ei(
+    double numerator = exponential_integral_wrapper(
         -r2/(4.*k*t)
     );
 
     // Compute numerator
     if (t > T) {
-        numerator -= gsl_sf_expint_Ei(
+        numerator -= exponential_integral_wrapper(
             -r2/(4.*k*(t-T))
         );
     }
